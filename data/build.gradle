@@ -1,14 +1,15 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
+repositories {
+    mavenCentral()
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.weatherapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -20,7 +21,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -31,22 +32,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation rootProject.ext.appCompat
-    implementation rootProject.ext.ktx
-    implementation rootProject.ext.constraintLayout
     implementation rootProject.ext.rxJava
     implementation rootProject.ext.retrofit
     implementation rootProject.ext.retrofitGsonConverter
-    implementation rootProject.ext.retrofitLoggingInterceptors
-    implementation rootProject.ext.retrofitRxJava2Adapter
     implementation rootProject.ext.room
-    implementation rootProject.ext.koinViewModel
-    implementation rootProject.ext.koinScope
-    implementation rootProject.ext.koinViewModel
+    implementation rootProject.ext.rxRoom
+    kapt rootProject.ext.roomCompiler
 
-    androidTestImplementation rootProject.ext.junit
-    androidTestImplementation rootProject.ext.junite2e
-    androidTestImplementation rootProject.ext.espresso
+    testImplementation rootProject.ext.junit
+    testImplementation rootProject.ext.mockito
+    androidTestImplementation rootProject.ext.androidTestRunner
+    testImplementation rootProject.ext.roomTest
 
-    implementation project(':domain')
-    implementation project(':data')
+    implementation project(":domain")
 }

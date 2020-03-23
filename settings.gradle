@@ -1,3 +1,4 @@
 rootProject.name='Weather'
 include ':presentation'
 include ':domain'
+include ':data'
