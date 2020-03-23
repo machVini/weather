@@ -1,0 +1,38 @@
+ext {
+    minSdkVersion = 21
+    targetSdkVersion = 29
+    compileSdkVersion = 29
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    appCompat = 'androidx.appcompat:appcompat:1.1.0'
+    ktx = 'androidx.core:core-ktx:1.2.0'
+    constraintLayout = 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    //Room
+    room = 'androidx.room:room-runtime:2.0.0-beta01'
+    rxRoom = 'androidx.room:room-rxjava2:2.0.0-beta01'
+
+    //RxJava
+    rxJava = "io.reactivex.rxjava2:rxjava:2.1.6"
+
+    //retrofit
+    retrofit = "com.squareup.retrofit2:retrofit:2.3.0"
+    retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:2.3.0"
+    retrofitRxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    retrofitLoggingInterceptors = "com.squareup.okhttp3:logging-interceptor:3.8.0"
+
+    //koin
+    koinViewModel = "org.koin:koin-android-viewmodel:2.1.5"
+    koinScope = "org.koin:koin-androidx-scope:2.1.5"
+
+    // Testing
+    junit = "junit:junit:4.13"
+    mockito = "org.mockito:mockito-core:2.8.47"
+    androidTestRunner = 'androidx.test:runner:1.1.0-alpha4'
+
+    //Espress
+    espresso = "androidx.test.espresso:espresso-core:3.2.0"
+
+    //Junit
+    junite2e = "androidx.test.ext:junit:1.1.1"
+}
