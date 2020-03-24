@@ -1,5 +1,6 @@
 package com.weatherapp.di
 
+import com.google.gson.GsonBuilder
 import com.weatherapp.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,11 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-fun createNetworkClient(baseUrl: String) =
-    retrofitClient(baseUrl, httpClient())
-
-class BasicAuthInterceptor() : Interceptor {
-
+class BasicAuthInterceptor: Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain) : Response {
         val request = chain.request()
@@ -25,7 +22,7 @@ class BasicAuthInterceptor() : Interceptor {
     }
 }
 
-private fun httpClient(): OkHttpClient {
+fun httpClient(): OkHttpClient {
     val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
     val clientBuilder = OkHttpClient.Builder()
     if (BuildConfig.DEBUG) {
@@ -38,10 +35,13 @@ private fun httpClient(): OkHttpClient {
     return clientBuilder.build()
 }
 
-private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit =
-    Retrofit.Builder()
+inline fun <reified T> createWebService(okHttpClient: OkHttpClient, baseUrl: String): T {
+    val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .client(httpClient)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .client(okHttpClient)
         .build()
+
+    return retrofit.create(T::class.java)
+}

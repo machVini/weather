@@ -7,8 +7,14 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '29.0.3'
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     defaultConfig {
         applicationId "com.weatherapp"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -24,13 +30,16 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation rootProject.ext.appCompat
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation rootProject.ext.ktx
     implementation rootProject.ext.constraintLayout
     implementation rootProject.ext.rxJava
@@ -46,6 +55,9 @@ dependencies {
     androidTestImplementation rootProject.ext.junit
     androidTestImplementation rootProject.ext.junite2e
     androidTestImplementation rootProject.ext.espresso
+    androidTestImplementation rootProject.ext.roomTest
+    androidTestImplementation rootProject.ext.androidTestRunner
+    androidTestImplementation rootProject.ext.mockito
 
     implementation project(':domain')
     implementation project(':data')
