@@ -7,10 +7,10 @@ import retrofit2.http.Query
 
 interface WeatherApi {
 
-    @GET("http://api.openweathermap.org/data/2.5/weather")
+    @GET("weather")
     fun getWeatherByCity(@Query("q") city: String): Flowable<WeatherMainEntity>
 
-    @GET("http://api.openweathermap.org/data/2.5/weather")
+    @GET("weather")
     fun getWeatherByCoordinate(@Query("lat") lat: Long,
                                @Query("lon") lon: Long): Flowable<WeatherMainEntity>
 }
