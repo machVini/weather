@@ -1,16 +1,16 @@
 package com.weatherapp.data.api
 
-import com.weatherapp.data.entities.WeatherMainEntity
-import io.reactivex.Flowable
+import com.weatherapp.data.entities.WeatherEntity
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherApi {
 
-    @GET("weather")
-    fun getWeatherByCity(@Query("q") city: String): Flowable<WeatherMainEntity>
+    @GET("weather/")
+    fun getWeatherByCity(@Query("appid") key: String, @Query("q") city: String): Call<WeatherEntity>
 
-    @GET("weather")
-    fun getWeatherByCoordinate(@Query("lat") lat: Long,
-                               @Query("lon") lon: Long): Flowable<WeatherMainEntity>
+    @GET("weather/")
+    fun getWeatherByCoordinate(@Query("appid") key: String, @Query("lat") lat: Long,
+                               @Query("lon") lon: Long): Call<WeatherEntity>
 }

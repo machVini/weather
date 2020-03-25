@@ -1,7 +1,7 @@
 package com.weatherapp.data.entities
 
 class WeatherMapper constructor() {
-    fun mapRemoteToDao(remote: WeatherMainEntity) : WeatherDaoEntity =
+    fun mapRemoteToDao(remote: WeatherEntity) : WeatherDaoEntity =
         WeatherDaoEntity(
             remote.cod,
             remote.name,
@@ -16,9 +16,9 @@ class WeatherMapper constructor() {
             remote.coord.lat)
 
 
-    fun mapDaoToRemote(dao: WeatherDaoEntity) : WeatherMainEntity {
-        val weatherEntity = WeatherEntity(dao.temp, dao.feels_like, dao.temp_min, dao.temp_max, dao.pressure, dao.humidity)
+    fun mapDaoToRemote(dao: WeatherDaoEntity) : WeatherEntity {
+        val weatherEntity = MeasureEntity(dao.temp, dao.feels_like, dao.temp_min, dao.temp_max, dao.pressure, dao.humidity)
         val coordinateEntity = CoordinateEntity(dao.lon, dao.lat)
-        return WeatherMainEntity(dao.cod, dao.name, dao.id, weatherEntity, coordinateEntity)
+        return WeatherEntity(dao.cod, dao.name, dao.id, weatherEntity, coordinateEntity)
     }
 }

@@ -39,7 +39,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation rootProject.ext.ktx
     implementation rootProject.ext.constraintLayout
     implementation rootProject.ext.rxJava
@@ -51,6 +51,10 @@ dependencies {
     implementation rootProject.ext.koinViewModel
     implementation rootProject.ext.koinScope
     implementation rootProject.ext.koinViewModel
+    implementation rootProject.ext.kotlinCoroutines
+    implementation rootProject.ext.kotlinCoroutinesAndroid
+    implementation rootProject.ext.javaX
+    implementation rootProject.ext.javaxAnnotation
 
     androidTestImplementation rootProject.ext.junit
     androidTestImplementation rootProject.ext.junite2e
@@ -61,4 +65,5 @@ dependencies {
 
     implementation project(':domain')
     implementation project(':data')
+    implementation project(':core')
 }

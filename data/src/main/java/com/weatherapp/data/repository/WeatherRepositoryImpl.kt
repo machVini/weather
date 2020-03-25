@@ -1,22 +1,34 @@
 package com.weatherapp.data.repository
 
-import com.weatherapp.data.entities.WeatherMainEntity
-import io.reactivex.Flowable
+import com.weatherapp.data.db.WeatherDao
+import com.weatherapp.data.entities.WeatherEntity
+import com.weatherapp.data.entities.WeatherMapper
+import java.lang.Exception
 
-class WeatherRepositoryImpl (private val cacheImpl: WeatherCacheImpl, private val remoteImpl: WeatherRemoteImpl): WeatherRepository {
-    override fun getCacheWeatherByCity(city: String): Flowable<WeatherMainEntity> {
-        return cacheImpl.getWeatherByCity(city)
+interface WeatherRepository {
+    suspend fun getWeatherByCity(city: String): WeatherEntity
+
+    suspend fun getWeatherByCoordinate(lat: Long, lon: Long): WeatherEntity
+
+    suspend fun saveWeather(item: WeatherEntity): Boolean
+}
+
+class WeatherRepositoryImpl (private val dao: WeatherDao, private val mapper: WeatherMapper): WeatherRepository {
+    override suspend fun getWeatherByCity(city: String): WeatherEntity {
+        return mapper.mapDaoToRemote(dao.getWeatherByCity(city))
     }
 
-    override fun getCacheWeatherByCoordinate(lat: Long, lon: Long): Flowable<WeatherMainEntity> {
-        return cacheImpl.getWeatherByCoordinate(lat, lon)
+    override suspend fun getWeatherByCoordinate(lat: Long, lon: Long): WeatherEntity {
+        return mapper.mapDaoToRemote(dao.getWeatherByCoordinate(lat, lon))
     }
 
-    override fun getRemoteWeatherByCity(city: String): Flowable<WeatherMainEntity> {
-        return remoteImpl.getWeatherByCity(city)
-    }
-
-    override fun getRemoteWeatherByCoordinate(lat: Long, lon: Long): Flowable<WeatherMainEntity> {
-        return remoteImpl.getWeatherByCoordinate(lat, lon)
+    override suspend fun saveWeather(item: WeatherEntity): Boolean {
+        try {
+            dao.clear()
+            dao.saveWeather(mapper.mapRemoteToDao(item))
+        } catch (e: Exception) {
+            return false
+        }
+        return true
     }
 }
