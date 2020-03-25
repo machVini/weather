@@ -9,6 +9,7 @@ import com.weatherapp.data.repository.WeatherRepositoryImpl
 import com.weatherapp.data.repository.WeatherService
 import com.weatherapp.data.repository.WeatherServiceImpl
 import com.weatherapp.domain.usecases.GetWeatherByCityApiUseCase
+import com.weatherapp.domain.usecases.GetWeatherByCityRepoUseCase
 import com.weatherapp.viewmodel.MainViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.viewmodel.dsl.viewModel
@@ -40,5 +41,7 @@ val appModule = module {
 
     single { GetWeatherByCityApiUseCase(get()) }
 
-    viewModel { MainViewModel(get()) }
+    single { GetWeatherByCityRepoUseCase(get()) }
+
+    viewModel { MainViewModel(get(), get()) }
 }
