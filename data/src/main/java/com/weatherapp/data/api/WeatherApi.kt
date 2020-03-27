@@ -11,6 +11,7 @@ interface WeatherApi {
     fun getWeatherByCity(@Query("appid") key: String, @Query("q") city: String): Call<WeatherEntity>
 
     @GET("weather/")
-    fun getWeatherByCoordinate(@Query("appid") key: String, @Query("lat") lat: Long,
-                               @Query("lon") lon: Long): Call<WeatherEntity>
+    fun getWeatherByCoordinate(@Query("appid") key: String, @Query("lat") lat: Double,
+                               @Query("lon") lon: Double
+    ): Call<WeatherEntity>
 }

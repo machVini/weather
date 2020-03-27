@@ -11,7 +11,7 @@ import com.weatherapp.data.entities.WeatherEntity
 interface WeatherService {
     suspend fun getWeatherByCity(city: String): Either<Failure, WeatherEntity>
 
-    suspend fun getWeatherByCoordinate(lat: Long, lon: Long): Either<Failure, WeatherEntity>
+    suspend fun getWeatherByCoordinate(lat: Double, lon: Double): Either<Failure, WeatherEntity>
 }
 
 class WeatherServiceImpl(private val weatherApi: WeatherApi) : WeatherService {
@@ -26,7 +26,7 @@ class WeatherServiceImpl(private val weatherApi: WeatherApi) : WeatherService {
         return request(weatherApi.getWeatherByCity(APP_KEY, city), default)
     }
 
-    override suspend fun getWeatherByCoordinate(lat: Long, lon: Long): Either<Failure, WeatherEntity> {
+    override suspend fun getWeatherByCoordinate(lat: Double, lon: Double): Either<Failure, WeatherEntity> {
         val defaultCoordinate = CoordinateEntity(0f, 0f)
         val defaultWeather = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
         val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate)

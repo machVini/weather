@@ -6,12 +6,15 @@ import com.weatherapp.core.platform.SingleLiveEvent
 import com.weatherapp.data.entities.WeatherEntity
 import com.weatherapp.domain.usecases.GetWeatherByCityApiUseCase
 import com.weatherapp.domain.usecases.GetWeatherByCityRepoUseCase
+import com.weatherapp.domain.usecases.GetWeatherByLocationApiUseCase
 import com.weatherapp.viewstate.MainViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel(private val getWeatherByCityApiUseCase: GetWeatherByCityApiUseCase, private val getWeatherByCityRepoUseCase: GetWeatherByCityRepoUseCase): BaseViewModel() {
+class MainViewModel(private val getWeatherByCityApiUseCase: GetWeatherByCityApiUseCase,
+                    private val getWeatherByCityRepoUseCase: GetWeatherByCityRepoUseCase,
+                    private val getWeatherByLocationApiUseCase: GetWeatherByLocationApiUseCase): BaseViewModel() {
 
     private val viewState = SingleLiveEvent<MainViewState>()
     fun viewState() = viewState
@@ -31,6 +34,15 @@ class MainViewModel(private val getWeatherByCityApiUseCase: GetWeatherByCityApiU
         launch {
             val result = withContext(Dispatchers.IO) {
                 getWeatherByCityRepoUseCase.run(GetWeatherByCityRepoUseCase.Params(city))
+            }
+            result.fold(::handleFailure, ::handleSuccess )
+        }
+    }
+
+    fun getWeatherByLocation(lat: Double, lon: Double){
+        launch {
+            val result = withContext(Dispatchers.IO){
+                getWeatherByLocationApiUseCase.run(GetWeatherByLocationApiUseCase.Params(lat,lon))
             }
             result.fold(::handleFailure, ::handleSuccess )
         }
