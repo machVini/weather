@@ -5,8 +5,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.weatherapp.R
-import com.weatherapp.R.string.max_temp
-import com.weatherapp.R.string.min_temp
 import com.weatherapp.common.capitalizeAll
 import com.weatherapp.common.celsiusToString
 import com.weatherapp.common.convertKelvinToCelsius
@@ -17,7 +15,6 @@ import com.weatherapp.viewstate.MainViewState
 import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity() {
-
     private var tvCity: TextView? = null
     private var tvTemp: TextView? = null
     private var tvMax: TextView? = null
@@ -28,6 +25,7 @@ class MainActivity : BaseActivity() {
     private var pbLoading: ProgressBar? = null
 
     private val viewModel : MainViewModel by inject()
+
     override fun layoutId() = R.layout.activity_main
 
     override fun statusBarColor() = ContextCompat.getColor(this, R.color.colorAccent)
@@ -57,13 +55,16 @@ class MainActivity : BaseActivity() {
     }
 
     private fun receivedWeatherByCity(item: WeatherEntity) {
+        tvCity?.text = item.name
         tvCity?.text = item.name.toUpperCase()
         tvTemp?.text = item.main.temp.convertKelvinToCelsius().celsiusToString()
-        tvMin?.text = getString(min_temp, item.main.temp_min.convertKelvinToCelsius().celsiusToString())
-        tvMax?.text = getString(max_temp, item.main.temp_max.convertKelvinToCelsius().celsiusToString())
+        tvMin?.text = String.format(getString(R.string.min_temp), item.main.temp_min.convertKelvinToCelsius().celsiusToString())
+        tvMax?.text = String.format(getString(R.string.max_temp), item.main.temp_max.convertKelvinToCelsius().celsiusToString())
         tvDescription?.text = item.main.feels_like.toString().capitalizeAll()
         tvPressure?.text = item.main.pressure.toString()
         tvHumidity?.text = item.main.humidity.toString()
+
+        viewModel.saveWeather(item)
     }
 
     private fun updateLoading(status: Int) {

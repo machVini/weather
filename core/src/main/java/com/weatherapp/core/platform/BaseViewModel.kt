@@ -15,7 +15,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     var failure: MutableLiveData<Failure> = MutableLiveData()
 
-    protected fun handleFailure(failure: Failure) {
+    protected open fun handleFailure(failure: Failure) {
         this.failure.value = failure
     }
 

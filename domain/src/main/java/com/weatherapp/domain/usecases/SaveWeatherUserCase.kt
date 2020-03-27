@@ -6,7 +6,7 @@ import com.weatherapp.core.iteractor.UseCase
 import com.weatherapp.data.entities.WeatherEntity
 import com.weatherapp.data.repository.WeatherRepository
 
-class SaveWeather(private val repository: WeatherRepository): UseCase<Boolean, SaveWeather.Params>() {
+class SaveWeatherUserCase(private val repository: WeatherRepository): UseCase<Boolean, SaveWeatherUserCase.Params>() {
 
     data class Params(val weather: WeatherEntity)
 
