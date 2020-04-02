@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun findViews() {
-        viewModel.getWeatherByLocation( 42.332, -71.0202)
+        viewModel.getWeatherByCity( "Campinas")
     }
 
     override fun observeChangesInViewModel() {
@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
         tvTemp?.text = item.main.temp.convertKelvinToCelsius().celsiusToString()
         tvMin?.text = String.format(getString(R.string.min_temp), item.main.temp_min.convertKelvinToCelsius().celsiusToString())
         tvMax?.text = String.format(getString(R.string.max_temp), item.main.temp_max.convertKelvinToCelsius().celsiusToString())
-        tvDescription?.text = item.main.feels_like.toString().capitalizeAll()
+        tvDescription?.text = item.sky.description.capitalizeAll()
         tvPressure?.text = item.main.pressure.toString()
         tvHumidity?.text = item.main.humidity.toString()
 

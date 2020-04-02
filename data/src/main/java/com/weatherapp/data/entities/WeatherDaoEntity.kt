@@ -16,4 +16,8 @@ data class WeatherDaoEntity(
     @SerializedName("pressure") val pressure: Float,
     @SerializedName("humidity") val humidity: Float,
     @SerializedName("lon") val lon: Float,
-    @SerializedName("lat") val lat: Float)
+    @SerializedName("lat") val lat: Float,
+    @SerializedName("id") val idSky: Long,
+    @SerializedName("main") val main: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("icon") val icon: String)
