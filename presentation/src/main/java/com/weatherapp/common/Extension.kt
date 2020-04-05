@@ -1,5 +1,7 @@
 package com.weatherapp.common
 
+import java.sql.Timestamp
+
 private const val KC_DIFF = 273
 private const val CELSIUS_UNIT = "°C"
 
@@ -17,4 +19,11 @@ fun String.capitalizeAll() : String {
     }
 
     return output.trim()
+}
+
+fun longToTimestamp(l: Long): Timestamp? = Timestamp(l)
+
+fun getTimestampString(l: Long): String? {
+    val timestamp = longToTimestamp(l)
+    return timestamp?.hours.toString() + ":" + timestamp?.minutes.toString()
 }

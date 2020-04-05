@@ -2,4 +2,7 @@
     <string name="app_name">Weather</string>
     <string name="min_temp">Min. Temp: %1$s</string>
     <string name="max_temp">Max. Temp: %1$s</string>
+    <string name="city">%1s, %1s</string>
+    <string name="time_sunrise">%1s AM</string>
+    <string name="time_sunset">%1s PM</string>
 </resources>

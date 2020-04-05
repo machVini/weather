@@ -191,7 +191,7 @@
         app:layout_constraintStart_toEndOf="@id/cl_info5">
 
         <ImageView
-            android:id="@+id/iv_info"
+            android:id="@+id/iv_feels_like"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/info"
@@ -201,17 +201,18 @@
             app:tint="#FFFFFF" />
 
         <TextView
-            android:id="@+id/tv_info"
+            android:id="@+id/tv_feels_like_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tomorrow"
+            android:text="Feels Like"
             android:textColor="@android:color/black"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_info" />
+            app:layout_constraintTop_toBottomOf="@id/iv_feels_like" />
 
         <TextView
+            android:id="@+id/tv_feels_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="23°C"
@@ -219,7 +220,7 @@
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_info" />
+            app:layout_constraintTop_toBottomOf="@id/tv_feels_like_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -247,7 +248,7 @@
             app:tint="#FFFFFF" />
 
         <TextView
-            android:id="@+id/tv_sunrise"
+            android:id="@+id/tv_sunrise_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sunrise"
@@ -258,6 +259,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_sunrise" />
 
         <TextView
+            android:id="@+id/tv_sunrise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="06:40 AM"
@@ -265,7 +267,7 @@
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sunrise" />
+            app:layout_constraintTop_toBottomOf="@id/tv_sunrise_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -294,7 +296,7 @@
             app:tint="#FFFFFF" />
 
         <TextView
-            android:id="@+id/tv_sunset"
+            android:id="@+id/tv_sunset_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sunset"
@@ -305,6 +307,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_sunset" />
 
         <TextView
+            android:id="@+id/tv_sunset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="06:40 AM"
@@ -312,7 +315,7 @@
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_sunset" />
+            app:layout_constraintTop_toBottomOf="@id/tv_sunset_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

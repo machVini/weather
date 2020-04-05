@@ -4,10 +4,7 @@ import com.weatherapp.core.common.request
 import com.weatherapp.core.exception.Failure
 import com.weatherapp.core.fuctional.Either
 import com.weatherapp.data.api.WeatherApi
-import com.weatherapp.data.entities.CoordinateEntity
-import com.weatherapp.data.entities.MeasureEntity
-import com.weatherapp.data.entities.SkyEntity
-import com.weatherapp.data.entities.WeatherEntity
+import com.weatherapp.data.entities.*
 
 interface WeatherService {
     suspend fun getWeatherByCity(city: String): Either<Failure, WeatherEntity>
@@ -24,7 +21,8 @@ class WeatherServiceImpl(private val weatherApi: WeatherApi) : WeatherService {
         val defaultCoordinate = CoordinateEntity(0f, 0f)
         val defaultWeather = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
         val defaultSky = SkyEntity(0, "", "", "")
-        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky)
+        val defaultSys = SysEntity(0,0, "", 0, 0)
+        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky, defaultSys)
         return request(weatherApi.getWeatherByCity(APP_KEY, city), default)
     }
 
@@ -32,7 +30,8 @@ class WeatherServiceImpl(private val weatherApi: WeatherApi) : WeatherService {
         val defaultCoordinate = CoordinateEntity(0f, 0f)
         val defaultWeather = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
         val defaultSky = SkyEntity(0, "", "", "")
-        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky)
+        val defaultSys = SysEntity(0,0, "", 0, 0)
+        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky, defaultSys)
         return request(weatherApi.getWeatherByCoordinate(APP_KEY, lat, lon), default)
     }
 }

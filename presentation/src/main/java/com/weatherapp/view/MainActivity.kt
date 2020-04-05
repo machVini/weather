@@ -5,9 +5,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.weatherapp.R
-import com.weatherapp.common.capitalizeAll
 import com.weatherapp.common.celsiusToString
 import com.weatherapp.common.convertKelvinToCelsius
+import com.weatherapp.common.getTimestampString
 import com.weatherapp.core.platform.BaseActivity
 import com.weatherapp.data.entities.WeatherEntity
 import com.weatherapp.viewmodel.MainViewModel
@@ -21,7 +21,10 @@ class MainActivity : BaseActivity() {
     private var tvMin: TextView? = null
     private var tvPressure: TextView? = null
     private var tvHumidity: TextView? = null
+    private var tvFeelsLike: TextView? = null
     private var tvDescription: TextView? = null
+    private var tvSunrise: TextView? = null
+    private var tvSunset: TextView? = null
     private var pbLoading: ProgressBar? = null
 
     private val viewModel : MainViewModel by inject()
@@ -38,6 +41,10 @@ class MainActivity : BaseActivity() {
         tvHumidity = findViewById(R.id.tv_humidity)
         tvPressure = findViewById(R.id.tv_pressure)
         tvDescription = findViewById(R.id.tv_status)
+        tvSunrise = findViewById(R.id.tv_sunrise)
+        tvSunset = findViewById(R.id.tv_sunset)
+        tvSunset = findViewById(R.id.tv_sunset)
+        tvFeelsLike = findViewById(R.id.tv_feels_like)
         pbLoading = findViewById(R.id.pb_loading)
     }
 
@@ -55,12 +62,14 @@ class MainActivity : BaseActivity() {
     }
 
     private fun receivedWeatherByCity(item: WeatherEntity) {
-        tvCity?.text = item.name
-        tvCity?.text = item.name.toUpperCase()
+        tvCity?.text = String.format(getString(R.string.city), item.name.toUpperCase(), item.sys.country)
         tvTemp?.text = item.main.temp.convertKelvinToCelsius().celsiusToString()
         tvMin?.text = String.format(getString(R.string.min_temp), item.main.temp_min.convertKelvinToCelsius().celsiusToString())
         tvMax?.text = String.format(getString(R.string.max_temp), item.main.temp_max.convertKelvinToCelsius().celsiusToString())
-        tvDescription?.text = item.sky.description.capitalizeAll()
+        tvFeelsLike?.text = item.main.feels_like.convertKelvinToCelsius().celsiusToString()
+//        tvDescription?.text = item.sky.description.capitalizeAll()
+        tvSunrise?.text = String.format(getString(R.string.time_sunrise), getTimestampString(item.sys.sunrise))
+        tvSunset?.text = String.format(getString(R.string.time_sunset), getTimestampString(item.sys.sunset))
         tvPressure?.text = item.main.pressure.toString()
         tvHumidity?.text = item.main.humidity.toString()
 
