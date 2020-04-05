@@ -18,20 +18,20 @@ class WeatherServiceImpl(private val weatherApi: WeatherApi) : WeatherService {
     }
 
     override suspend fun getWeatherByCity(city: String): Either<Failure, WeatherEntity> {
-        val defaultCoordinate = CoordinateEntity(0f, 0f)
-        val defaultWeather = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
-        val defaultSky = SkyEntity(0, "", "", "")
-        val defaultSys = SysEntity(0,0, "", 0, 0)
-        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky, defaultSys)
+        val coordinateEntity = CoordinateEntity(0f, 0f)
+        val measureEntity = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
+        val listWeather = listOf<SkyEntity>()
+        val sysEntity = SysEntity(0, 0, "", 0, 0)
+        val default = WeatherEntity(0, "", 0f, measureEntity, coordinateEntity, listWeather, sysEntity)
         return request(weatherApi.getWeatherByCity(APP_KEY, city), default)
     }
 
     override suspend fun getWeatherByCoordinate(lat: Double, lon: Double): Either<Failure, WeatherEntity> {
-        val defaultCoordinate = CoordinateEntity(0f, 0f)
-        val defaultWeather = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
-        val defaultSky = SkyEntity(0, "", "", "")
-        val defaultSys = SysEntity(0,0, "", 0, 0)
-        val default = WeatherEntity(0, "", 0f, defaultWeather, defaultCoordinate, defaultSky, defaultSys)
+        val coordinateEntity = CoordinateEntity(0f, 0f)
+        val measureEntity = MeasureEntity(0f, 0f, 0f,0f,0f,0f)
+        val listWeather = listOf<SkyEntity>()
+        val sysEntity = SysEntity(0, 0, "", 0, 0)
+        val default = WeatherEntity(0, "", 0f, measureEntity, coordinateEntity, listWeather, sysEntity)
         return request(weatherApi.getWeatherByCoordinate(APP_KEY, lat, lon), default)
     }
 }
