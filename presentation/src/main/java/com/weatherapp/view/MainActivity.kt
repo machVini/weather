@@ -1,14 +1,13 @@
 package com.weatherapp.view
 
+import android.graphics.drawable.Drawable
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.weatherapp.R
-import com.weatherapp.common.capitalizeAll
-import com.weatherapp.common.celsiusToString
-import com.weatherapp.common.convertKelvinToCelsius
-import com.weatherapp.common.getTimestampString
+import com.weatherapp.common.*
 import com.weatherapp.core.platform.BaseActivity
 import com.weatherapp.data.entities.WeatherEntity
 import com.weatherapp.viewmodel.MainViewModel
@@ -30,6 +29,7 @@ class MainActivity : BaseActivity() {
     private var tvSunset: TextView? = null
     private var pbLoading: ProgressBar? = null
     private var tvDateTime: TextView? = null
+    private var view: ConstraintLayout? = null
 
     private val viewModel : MainViewModel by inject()
 
@@ -38,6 +38,7 @@ class MainActivity : BaseActivity() {
     override fun statusBarColor() = ContextCompat.getColor(this, R.color.colorAccent)
 
     override fun setupViews() {
+        view = findViewById(R.id.cl_main)
         tvCity = findViewById(R.id.tv_address)
         tvDateTime = findViewById(R.id.tv_updated_at)
         tvTemp = findViewById(R.id.tv_temp)
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun findViews() {
-        viewModel.getWeatherByCity( "Campinas")
+        viewModel.getWeatherByCity( "Porto Seguro")
     }
 
     override fun observeChangesInViewModel() {
@@ -72,7 +73,10 @@ class MainActivity : BaseActivity() {
         return format.format(calendar.time)
     }
 
+    private fun getCurrencyTime() = Calendar.getInstance().time
+
     private fun receivedWeatherByCity(item: WeatherEntity) {
+        view?.background = getExtensionBg()
         tvCity?.text = String.format(getString(R.string.city), item.name.toUpperCase(Locale.getDefault()), item.sys.country)
         tvDateTime?.text = getCurrentDateTime()
         tvTemp?.text = item.main.temp.convertKelvinToCelsius().celsiusToString()
@@ -80,8 +84,8 @@ class MainActivity : BaseActivity() {
         tvMax?.text = String.format(getString(R.string.max_temp), item.main.temp_max.convertKelvinToCelsius().celsiusToString())
         tvFeelsLike?.text = item.main.feels_like.convertKelvinToCelsius().celsiusToString()
         tvDescription?.text = item.weather[0].description.capitalizeAll()
-        tvSunrise?.text = String.format(getString(R.string.time_sunrise), getTimestampString(item.sys.sunrise))
-        tvSunset?.text = String.format(getString(R.string.time_sunset), getTimestampString(item.sys.sunset))
+        tvSunrise?.text = getTimestampString(item.sys.sunrise)
+        tvSunset?.text = getTimestampString(item.sys.sunset)
         tvPressure?.text = item.main.pressure.toString()
         tvHumidity?.text = item.main.humidity.toString()
 
@@ -90,5 +94,9 @@ class MainActivity : BaseActivity() {
 
     private fun updateLoading(status: Int) {
         pbLoading?.visibility = status
+    }
+
+    private fun getExtensionBg() : Drawable? {
+        return applicationContext.getDrawable(getTimeBackground(getCurrencyTime()))
     }
 }

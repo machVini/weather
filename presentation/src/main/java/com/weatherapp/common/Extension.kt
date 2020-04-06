@@ -1,9 +1,14 @@
 package com.weatherapp.common
 
+import com.weatherapp.R
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val KC_DIFF = 273
 private const val CELSIUS_UNIT = "°C"
+private const val NIGHTLY_BACKGROUND = R.drawable.bg_night
+private const val DAILY_BACKGROUND = R.drawable.bg_day
 
 fun Float.convertKelvinToCelsius() : Int = (this - KC_DIFF).toInt()
 
@@ -21,9 +26,17 @@ fun String.capitalizeAll() : String {
     return output.trim()
 }
 
-fun longToTimestamp(l: Long): Timestamp? = Timestamp(l)
+fun longToTimestamp(l: Long): Timestamp = Timestamp(l)
 
 fun getTimestampString(l: Long): String? {
     val timestamp = longToTimestamp(l)
-    return timestamp?.hours.toString() + ":" + timestamp?.minutes.toString()
+    val format = SimpleDateFormat("HH:mm a", Locale.getDefault())
+    return format.format(Date(timestamp.time))
 }
+
+fun getTimeBackground(d: Date) : Int{
+    val hour = d.hours
+    if (hour < 6 || hour >= 18) return NIGHTLY_BACKGROUND
+    return DAILY_BACKGROUND
+}
+
