@@ -1,6 +1,14 @@
 package com.weatherapp.view
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
+import android.provider.Settings
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,8 +38,11 @@ class MainActivity : BaseActivity() {
     private var pbLoading: ProgressBar? = null
     private var tvDateTime: TextView? = null
     private var view: ConstraintLayout? = null
+    private lateinit var locationManager: LocationManager
+    private var hasGPS = false
+    private var locationGps: Location? = null
 
-    private val viewModel : MainViewModel by inject()
+    private val viewModel: MainViewModel by inject()
 
     override fun layoutId() = R.layout.activity_main
 
@@ -54,15 +65,32 @@ class MainActivity : BaseActivity() {
         pbLoading = findViewById(R.id.pb_loading)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+            || !checkPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            requestPermission(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
     override fun findViews() {
-        viewModel.getWeatherByCity( "Porto Seguro")
+        getLocation()
+        viewModel.getWeatherByLocation(locationGps!!.latitude, locationGps!!.longitude)
     }
 
     override fun observeChangesInViewModel() {
         viewModel.viewState().observe(this, Observer {
-            when(it) {
+            when (it) {
                 is MainViewState.Success -> receivedWeatherByCity(it.weather)
                 is MainViewState.Loading -> updateLoading(it.visibilityId)
+                is MainViewState.Error -> {}
+                is MainViewState.SaveSuccess -> {}
             }
         })
     }
@@ -96,7 +124,37 @@ class MainActivity : BaseActivity() {
         pbLoading?.visibility = status
     }
 
-    private fun getExtensionBg() : Drawable? {
+    private fun getExtensionBg(): Drawable? {
         return applicationContext.getDrawable(getTimeBackground(getCurrencyTime()))
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation() {
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        hasGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+        if (hasGPS) {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                5000,
+                0f,
+                object : LocationListener {
+                    override fun onLocationChanged(location: Location?) {
+                        if (location != null)
+                            locationGps = location
+                    }
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                    override fun onProviderEnabled(provider: String?) {}
+                    override fun onProviderDisabled(provider: String?) {}
+                })
+            val localGpsLocation =
+                locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if (localGpsLocation != null)
+                locationGps = localGpsLocation
+
+        } else {
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+        }
     }
 }
