@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun findViews() {
-        viewModel.getWeatherByCity( "Porto Seguro")
+        viewModel.getWeatherByCity( "Bertioga")
     }
 
     override fun observeChangesInViewModel() {
@@ -76,7 +76,7 @@ class MainActivity : BaseActivity() {
     private fun getCurrencyTime() = Calendar.getInstance().time
 
     private fun receivedWeatherByCity(item: WeatherEntity) {
-        view?.background = getExtensionBg()
+        view?.background = getBackgroundFromTime()
         tvCity?.text = String.format(getString(R.string.city), item.name.toUpperCase(Locale.getDefault()), item.sys.country)
         tvDateTime?.text = getCurrentDateTime()
         tvTemp?.text = item.main.temp.convertKelvinToCelsius().celsiusToString()
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity() {
         pbLoading?.visibility = status
     }
 
-    private fun getExtensionBg() : Drawable? {
+    private fun getBackgroundFromTime() : Drawable? {
         return applicationContext.getDrawable(getTimeBackground(getCurrencyTime()))
     }
 }

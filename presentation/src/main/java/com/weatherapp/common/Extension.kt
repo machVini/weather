@@ -26,10 +26,10 @@ fun String.capitalizeAll() : String {
     return output.trim()
 }
 
-fun longToTimestamp(l: Long): Timestamp = Timestamp(l)
+fun Long.toTimestamp(): Timestamp = Timestamp(this)
 
 fun getTimestampString(l: Long): String? {
-    val timestamp = longToTimestamp(l)
+    val timestamp = l.toTimestamp()
     val format = SimpleDateFormat("HH:mm a", Locale.getDefault())
     return format.format(Date(timestamp.time))
 }
